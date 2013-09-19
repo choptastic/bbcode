@@ -15,4 +15,16 @@ Raw = "Some String with [i]italics[/i], [b]Bold[/b], [url=http://google.com]Link
 Compiled = bbcode:compile(Raw),
 ```
 
+## Add to your app with rebar
+
+```erlang
+{deps, [
+	{bbcode, ".*", {git, "git://github.com/choptastic/bbcode.git", {branch, master}}}
+]}.
+```
+
+## About
+
+Author: [Jesse Gumm](http://jessegumm.com) ([@jessegumm](http://twitter.com/jessegumm))
+
 MIT License
