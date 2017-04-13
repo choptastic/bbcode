@@ -8,7 +8,7 @@
 %% BBCode doesn't really have a standard so this is "good enough".
 %%
 -module(bbcode).
--export([compile/1]).
+-export([compile/1, nl2br/1]).
 
 %% options for regular expressions
 -define(OPTS,[global,dotall,caseless]).
