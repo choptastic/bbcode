@@ -8,10 +8,31 @@
 %% BBCode doesn't really have a standard so this is "good enough".
 %%
 -module(bbcode).
--export([compile/1]).
+-export([compile/1, nl2br/1]).
 
 %% options for regular expressions
 -define(OPTS,[global,dotall,caseless]).
+-define(FUNS,[
+        fun hr/1,
+        fun b/1,
+        fun i/1,
+        fun u/1,
+        fun strike/1,
+        fun color/1,
+        fun size/1,
+        fun img/1,
+        fun img_size/1,
+        fun url/1,
+        fun right/1,
+        fun center/1,
+        fun left/1,
+        fun ul/1,
+        fun star_tag/1,
+        fun li/1,
+        fun ol/1,
+        fun star/1,
+        fun fix_newlines/1
+    ]).
 
 -spec compile(Raw :: iolist()) -> binary().
 compile(Raw) ->
@@ -19,8 +40,7 @@ compile(Raw) ->
     compile2(Raw2).
 
 compile2(Raw) ->
-    Funs = [hr,b,i,u,strike,color,size,img,img_size,url,right,center,left,ul,star_tag,li,ol,star,fix_newlines],
-    Iolist = lists:foldl(fun(Proc,Cur) -> ?MODULE:Proc(Cur) end,Raw,Funs),
+    Iolist = lists:foldl(fun(F,Cur) -> F(Cur) end,Raw, ?FUNS),
     Final = iolist_to_binary(Iolist),
     case Final of
         Raw -> nl2br(Final);
@@ -108,5 +128,5 @@ ihe(<<">", T/binary>>) -> <<"&lt;",   (ihe(T))/binary>>;
 ihe(<<"\"",T/binary>>) -> <<"&quot;", (ihe(T))/binary>>;
 ihe(<<"'", T/binary>>) -> <<"&#39;",  (ihe(T))/binary>>;
 ihe(<<"&", T/binary>>) -> <<"&amp;",  (ihe(T))/binary>>;
-ihe(<<H,/T/binary>>)   -> <<H,T/binary>>.
+ihe(<<H,T/binary>>)   -> <<H,T/binary>>.
 
