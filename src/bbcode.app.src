@@ -1,7 +1,7 @@
 {application, bbcode,
  [
-  {description, ""},
-  {vsn, "0.0.1"},
+  {description, "A naive bbcode parser"},
+  {vsn, "0.0.2"},
   {registered, []},
   {applications, [
                   kernel,
